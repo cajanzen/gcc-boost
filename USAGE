@@ -1,0 +1,20 @@
+# Usage:
+# The following bash commands create a script `run.sh` that mounts your current directory in the container and switches UID and GID to match the current user"
+
+echo '#!/bin/sh' > docker-gcc-boost
+echo 'docker run \
+  --rm \
+  -e DISPLAY=$DISPLAY \
+  -e GID=`id -g` \
+  -e GROUP=`id -gn` \
+  -e HOME=$HOME \
+  -e UID=`id -u` \
+  -e USER=$USER \
+  -it \
+  -u `id -u`:`id -g` \
+  -v $PWD:$PWD \
+  -v /tmp:/tmp \
+  -w $PWD \
+  cajanzen/gcc-boost bash' >> docker-gcc-boost
+chmod a+x docker-gcc-boost
+echo "copy docker-gcc-boost to some place in your path: $PATH"
